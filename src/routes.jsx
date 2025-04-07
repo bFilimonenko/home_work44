@@ -6,7 +6,7 @@ import { ContactsProvider } from './contexts/ContactsContext/index.js';
 
 export const router = createBrowserRouter([
   {
-    path: '/contacts',
+    path: '/home_work44/contacts',
     element: <MainLayout />,
     children: [
       {
@@ -31,7 +31,7 @@ export const router = createBrowserRouter([
     path: '/*',
     element: (
       <>
-        <Navigate replace to="/contacts/list" />
+        <Navigate replace to="/home_work44/contacts/list" />
         <Outlet />
       </>
     ),
