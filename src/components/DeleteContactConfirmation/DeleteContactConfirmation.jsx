@@ -4,10 +4,13 @@ import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
 import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
-import { useContacts } from '../../contexts/ContactsContext/index.js';
+import { useDispatch, useSelector } from 'react-redux';
+import { getSelectedContactSelector } from '../../store/selectors/contacts.js';
+import { deleteContact } from '../../store/reducers/contacts.js';
 
 export const DeleteContactConfirmation = ({ open, handleClose }) => {
-  const { deleteContact, selectedContact } = useContacts();
+  const selectedContact = useSelector(getSelectedContactSelector);
+  const dispatch = useDispatch();
 
   return (
     <Dialog open={open} onClose={handleClose}>
@@ -21,7 +24,7 @@ export const DeleteContactConfirmation = ({ open, handleClose }) => {
         <Button onClick={handleClose}>Cancel</Button>
         <Button
           onClick={() => {
-            deleteContact();
+            dispatch(deleteContact());
             handleClose();
           }}
           autoFocus

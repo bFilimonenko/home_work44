@@ -1,15 +1,20 @@
 import './ContactForm.css';
 import { Button, TextField } from '@mui/material';
-import { useEffect, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import { useMask } from '@react-input/mask';
 
 import { PAGES } from '../../layouts/MainLayout/constants.js';
-import { useContacts } from '../../contexts/ContactsContext/index.js';
 import { useNavigate } from 'react-router';
+import { useDispatch, useSelector } from 'react-redux';
+import { getSelectedContactSelector } from '../../store/selectors/contacts.js';
+import { ContactsContext } from '../../contexts/ContactsContext/context.jsx';
+import { addContact, editContact } from '../../store/reducers/contacts.js';
 
 export const ContactForm = () => {
-  const { saveContact, selectedContact } = useContacts();
+  const { validateContact } = useContext(ContactsContext);
   const navigate = useNavigate();
+  const selectedContact = useSelector(getSelectedContactSelector);
+  const dispatch = useDispatch();
 
   const [formValue, setFormValue] = useState({
     firstName: '',
@@ -30,7 +35,7 @@ export const ContactForm = () => {
   });
 
   const handleSave = () => {
-    const validationErrors = saveContact(formValue);
+    const validationErrors = validateContact(formValue);
 
     if (validationErrors) {
       setValidationError(
@@ -39,7 +44,18 @@ export const ContactForm = () => {
           return acc;
         }, {}),
       );
+
+      return;
     }
+
+    if (selectedContact) {
+      dispatch(editContact(formValue));
+      navigate(PAGES.LIST);
+      return;
+    }
+
+    dispatch(addContact(formValue));
+    navigate(PAGES.LIST);
   };
 
   const handleChange = (event) => {

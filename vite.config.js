@@ -7,5 +7,5 @@ export default defineConfig({
     port: 3002,
   },
   plugins: [react()],
-  base: '/home_work42',
+  base: '/',
 });
