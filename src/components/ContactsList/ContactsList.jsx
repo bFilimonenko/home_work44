@@ -1,6 +1,6 @@
 import './ContactsList.css';
 import { Delete, Edit } from '@mui/icons-material';
-import { CircularProgress, IconButton } from '@mui/material';
+import { Box, CircularProgress, IconButton } from '@mui/material';
 import { PAGES } from '../../layouts/MainLayout/constants.js';
 import { useNavigate } from 'react-router';
 import { useEffect, useState } from 'react';
@@ -31,7 +31,17 @@ export const ContactsList = () => {
         </div>
 
         {isLoading ? (
-          <CircularProgress />
+          <Box
+            sx={{
+              display: 'flex',
+              justifyContent: 'center',
+              alignItems: 'center',
+              width: '100%',
+              height: '80vh',
+            }}
+          >
+            <CircularProgress />
+          </Box>
         ) : (
           contacts.map((contact) => (
             <div key={contact.id} className="contact table-row">
